@@ -2,3 +2,4 @@ gcc
 g++
 gdb
 make
+atool
