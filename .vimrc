@@ -5,6 +5,7 @@ syntax on
 " Tab/space configuration
 set tabstop=4
 set softtabstop=4
+set autoindent
 
 " UI configuration
 set number

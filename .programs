@@ -3,3 +3,4 @@ g++
 gdb
 make
 atool
+python3-pip

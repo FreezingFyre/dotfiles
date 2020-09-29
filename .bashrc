@@ -56,10 +56,14 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;95m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\W\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;95m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\W\[\033[00m\]\[\033[01;94m\]$(parse_git_branch)\[\033[00m\] \$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W$(parse_git_branch) \$ '
 fi
 unset color_prompt force_color_prompt
 
@@ -90,6 +94,10 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+# Get X11 stuff to work properly
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export LIBGL_ALWAYS_INDIRECT=1
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -111,4 +119,4 @@ if ! shopt -oq posix; then
 fi
 
 # Change directory to the main windows home directory
-cd $WINHOME
+#cd $WINHOME
